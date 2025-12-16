@@ -81,7 +81,7 @@ def procesar_frames_estaticos(buffer_frames, frame_estatico_mask, out):
 
         dado_roi = buffer_frames[0][y:y+h, x:x+w]
         valor = identificar_valor(dado_roi)
-        print(f'    Dado identificado. Valor: {valor}')
+        print(f'    Dado {i} identificado. Valor: {valor}')
         dados.append((x, y, w, h, valor))
 
     print(f'  Generando video anotado con {len(dados)} dados identificados.')
@@ -89,7 +89,7 @@ def procesar_frames_estaticos(buffer_frames, frame_estatico_mask, out):
     for f in buffer_frames: # Anotar y guardar cada frame de dados quietos
         for (x, y, w, h, valor) in dados:
             cv2.rectangle(f, (x, y), (x+w, y+h), (255, 255, 0), 3)
-            cv2.putText(f, str(valor), (x, y-10),
+            cv2.putText(f, f"Dado {dados.index((x, y, w, h, valor))+1}: {str(valor)}", (x-120, y-10),
                         cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0, 255, 255), 3)
         out.write(f)
 
